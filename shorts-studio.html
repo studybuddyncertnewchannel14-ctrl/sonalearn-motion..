@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SonaLearn-Motion | Shorts Lab</title>
+    <style>
+        @import url('https://googleapis.com');
+        body { font-family: 'Inter', sans-serif; background-color: #000000; color: #f3f4f6; margin: 0; padding: 40px 20px; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 550px; background: #0a0a0c; padding: 40px; border-radius: 24px; border: 1px solid #1f1f23; text-align: center; position: relative; }
+        .title { font-size: 30px; font-weight: 800; background: linear-gradient(135deg, #fff, #a5b4fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0 0 5px 0; }
+        .sub { color: #9ca3af; font-size: 14px; margin-bottom: 30px; }
+        
+        /* Developer Sandbox Account Simulator Switch */
+        .account-tester-panel { background: #16161a; border: 1px dashed #3a3a4c; padding: 12px; border-radius: 12px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; text-align: left; }
+        .account-tester-panel span { font-size: 12px; color: #9ca3af; font-weight: 600; }
+        .tester-select { width: auto; background: #22222b; color: #fff; padding: 6px 12px; font-size: 12px; border: 1px solid #444; border-radius: 6px; outline: none; }
+
+        .form-row { text-align: left; margin-bottom: 20px; }
+        .form-row label { display: block; font-size: 13px; color: #9ca3af; margin-bottom: 8px; font-weight: 500; }
+        textarea, select, input { width: 100%; background: #18181c; color: #fff; border: 1px solid #2d2d34; padding: 12px; border-radius: 10px; box-sizing: border-box; font-size: 14px; outline: none; }
+        textarea { height: 80px; resize: none; font-family: inherit; }
+        .num-wrapper { display: flex; align-items: center; gap: 10px; }
+        .num-wrapper span { font-size: 14px; color: #9ca3af; }
+        
+        .btn { background: #818cf8; color: #fff; border: none; padding: 14px 28px; font-weight: 600; border-radius: 10px; cursor: pointer; width: 100%; font-size: 16px; margin-top: 10px; }
+        .btn:hover { background: #6366f1; }
+        .back-link { display: inline-block; margin-top: 20px; color: #9ca3af; text-decoration: underline; font-size: 14px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Sandbox Control Panel for Testing Tiers Live -->
+        <div class="account-tester-panel">
+            <span>🛠️ Developer Sandbox Account Mode:</span>
+            <select id="userTypeSim" class="tester-select" onchange="checkUserStatusChange()">
+                <option value="freeUser">Free Account Mode (Standard)</option>
+                <option value="premiumUser">🏆 Premium Active Member (Ad-Free VIP)</option>
+            </select>
+        </div>
+
+        <h2 class="title">Micro Shorts Laboratory 📱</h2>
+        <p class="sub" id="welcomeSubtext">Status: Standard Public Engine Access</p>
+        
+        <!-- Step 1: Prompt Input Box -->
+        <div class="form-row">
+            <label>Step 1: Write Educational Concept Visual Prompt</label>
+            <textarea id="shortPromptField" placeholder="A stunning tracking shot of red blood cells rushing through a narrow capillary system, medical learning graphics"></textarea>
+        </div>
+
+        <!-- Step 2: Honest Engine Choice List -->
+        <div class="form-row">
+            <label>Step 2: Core Video Engine Model Pipeline</label>
+            <select id="shortModelField">
+                <optgroup label="Free Engines (100% Unlimited & Free)">
+                    <option value="free-wan">SonaRender Basic - Wan 2.1 (Cinematic Realism Engine)</option>
+                    <option value="free-ltx">SonaRender Fast - LTX-Video (Hyper-Speed Processing)</option>
+                </optgroup>
+                <optgroup id="premiumGroupHeader" label="Premium Engines (Requires Premium or Ad-Unlock)">
+                    <option value="premium-veo">MotionSync Vocal - Google Veo 3.1 Fast (Audio Synced)</option>
+                    <option value="premium-sora">Sona-Core Engine - OpenAI Sora 2.0 Pro (Physics Tracking)</option>
+                    <option value="premium-kling">Kling AI Omni Enterprise Array</option>
+                </optgroup>
+            </select>
+        </div>
+
+        <!-- Step 3: Global Free Aspect Ratio Switch Box -->
+        <div class="form-row">
+            <label>Step 3: Target Canvas Layout Configuration (🆓 100% FREE FEATURE)</label>
+            <select id="aspectRatioField">
+                <option value="ratio-9-16">📱 9:16 Vertical (YouTube Shorts / TikTok Vertical Canvas)</option>
+                <option value="ratio-16-9">🎬 16:9 Widescreen (Traditional YouTube Layout Landscape)</option>
+                <option value="ratio-1-1">⏹️ 1:1 Square Grid (Instagram Posts Layout Frame)</option>
+            </select>
+        </div>
+
+        <!-- Step 4: Resolution Dropdown (Premium Tier Locked) -->
+        <div class="form-row">
+            <label>Step 4: Output Quality Resolution Profile</label>
+            <select id="resolutionField">
+                <option value="2k">Standard HD Rendering (Up to 2K Resolution - Free for All)</option>
+                <option id="opt4k" value="4k" disabled>🔒 Ultra HD Mastering (4K resolution - Premium Only)</option>
+                <option id="opt8k" value="8k" disabled>🔒 Cinematic Super Resolution (8K mastering - Maximum Only)</option>
+            </select>
+        </div>
+
+        <!-- Step 5: Custom Timings Numeric Box -->
+        <div class="form-row">
+            <label>Step 5: Render Duration Constraints</label>
+            <div class="num-wrapper">
+                <input type="number" id="shortTimeField" min="5" max="30" value="15">
+                <span>Seconds (Max limit 30s)</span>
+            </div>
+        </div>
+
+        <!-- Trigger Button routing forward to Page 8 theatre render screen -->
+        <button class="btn" onclick="triggerShortExecution()">Deploy Short Execution →</button>
+        
+        <br>
+        <a href="format-selector.html" class="back-link">← Return to Format Selector</a>
+    </div>
+
+    <script>
+        // Sandbox tier switching logic
+        window.checkUserStatusChange = function() {
+            const userSim = document.getElementById("userTypeSim").value;
+            const subtext = document.getElementById("welcomeSubtext");
+            const premiumHeader = document.getElementById("premiumGroupHeader");
+            
+            const opt4k = document.getElementById("opt4k");
+            const opt8k = document.getElementById("opt8k");
+
+            if(userSim === "premiumUser") {
+                subtext.innerText = "✨ Status: VIP Ad-Free Core Enabled. Accessing Premium Nodes.";
+                subtext.style.color = "#f59e0b";
+                premiumHeader.label = "Premium Engines (💎 Unlocked Ad-Free)";
+                
+                opt4k.disabled = false;
+                opt4k.innerText = "💎 Ultra HD Mastering (4K resolution - UNLOCKED)";
+                opt8k.disabled = false;
+                opt8k.innerText = "💎 Cinematic Super Resolution (8K mastering - UNLOCKED)";
+            } else {
+                subtext.innerText = "Status: Standard Public Engine Access";
+                subtext.style.color = "#9ca3af";
+                premiumHeader.label = "Premium Engines (Requires Premium or Ad-Unlock)";
+                
+                opt4k.disabled = true;
+                opt4k.innerText = "🔒 Ultra HD Mastering (4K resolution - Premium Only)";
+                opt8k.disabled = true;
+                opt8k.innerText = "🔒 Cinematic Super Resolution (8K mastering - Maximum Only)";
+                document.getElementById("resolutionField").value = "2k";
+            }
+        }
+
+        window.triggerShortExecution = function() {
+            const prompt = document.getElementById("shortPromptField").value.trim();
+            const modelChoice = document.getElementById("shortModelField").value;
+            const userSimMode = document.getElementById("userTypeSim").value;
+            const targetRatio = document.getElementById("aspectRatioField").value;
+            const targetRes = document.getElementById("resolutionField").value;
+            const duration = document.getElementById("shortTimeField").value;
+            
+            if(!prompt) return alert("Please write a short video prompt first!");
+            if(parseInt(duration) > 30) return alert("Shorts are strictly capped at 30 seconds max!");
+
+            // SYSTEM HONEST AD VERIFICATION CHECK ENGINE
+            if (modelChoice.startsWith("premium-") && userSimMode !== "premiumUser") {
+                const modelName = document.getElementById("shortModelField").options[document.getElementById("shortModelField").selectedIndex].text;
+                alert("📢 REWARDED AD UNLOCK:\nYou selected a Premium Engine (" + modelName + ").\n\nWatch 1 video ad to unlock this specific high-tier generation for 100% free!");
+            }
+
+            // Cache data values to transport safely to render-output.html page
+            localStorage.setItem("activePrompt", prompt);
+            localStorage.setItem("renderType", "Micro Short (" + targetRatio.replace("ratio-","") + ")");
+            localStorage.setItem("resolutionQuality", targetRes);
+
+            // Pass user along the mind map nodes directly to Page 8
+            window.location.href = "render-output.html";
+        }
+    </script>
+</body>
+</html>
