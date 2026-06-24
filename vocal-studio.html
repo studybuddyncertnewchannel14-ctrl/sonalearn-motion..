@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SonaLearn-Motion | Vocal Studio</title>
+    <style>
+        @import url('https://googleapis.com');
+        body { font-family: 'Inter', sans-serif; background-color: #000000; color: #f3f4f6; margin: 0; padding: 40px 20px; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 550px; background: #0a0a0c; padding: 40px; border-radius: 24px; border: 1px solid #1f1f23; text-align: center; }
+        .title { font-size: 30px; font-weight: 800; background: linear-gradient(135deg, #fff, #a5b4fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0 0 5px 0; }
+        .sub { color: #9ca3af; font-size: 14px; margin-bottom: 30px; }
+        
+        .account-tester-panel { background: #16161a; border: 1px dashed #3a3a4c; padding: 12px; border-radius: 12px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; text-align: left; }
+        .account-tester-panel span { font-size: 12px; color: #9ca3af; font-weight: 600; }
+        .tester-select { width: auto; background: #22222b; color: #fff; padding: 6px 12px; font-size: 12px; border: 1px solid #444; border-radius: 6px; outline: none; }
+
+        .form-row { text-align: left; margin-bottom: 20px; }
+        .form-row label { display: block; font-size: 13px; color: #9ca3af; margin-bottom: 8px; font-weight: 500; }
+        textarea, select, input { width: 100%; background: #18181c; color: #fff; border: 1px solid #2d2d34; padding: 12px; border-radius: 10px; box-sizing: border-box; font-size: 14px; outline: none; }
+        textarea { height: 80px; resize: none; font-family: inherit; }
+        
+        .btn { background: #818cf8; color: #fff; border: none; padding: 14px 28px; font-weight: 600; border-radius: 10px; cursor: pointer; width: 100%; font-size: 16px; margin-top: 10px; }
+        .btn:hover { background: #6366f1; }
+        .audio-box { margin-top: 25px; display: none; background: #111115; padding: 20px; border-radius: 16px; border: 1px solid #1f1f23; }
+        audio { width: 100%; margin-top: 15px; }
+        .back-link { display: inline-block; margin-top: 20px; color: #9ca3af; text-decoration: underline; font-size: 14px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Sandbox Account Switcher -->
+        <div class="account-tester-panel">
+            <span>🛠️ Developer Sandbox Account Mode:</span>
+            <select id="userTypeSim" class="tester-select" onchange="checkUserStatusChange()">
+                <option value="freeUser">Free Account Mode (Standard)</option>
+                <option value="premiumUser">🏆 Premium Active Member (Ad-Free VIP)</option>
+                <option value="maxUser">👑 Maximum Active Member (All Voices + Voice Clone)</option>
+            </select>
+        </div>
+
+        <h2 class="title">MotionSync Vocal Engine 🎤</h2>
+        <p class="sub" id="welcomeSubtext">Status: Standard Voiceover Arrays Active</p>
+        
+        <!-- Script Text Box -->
+        <div class="form-row">
+            <label>Step 1: Paste Voiceover Script Narrative Text</label>
+            <textarea id="vocalScriptField" placeholder="Paste your generated script text here to synthesize realistic narration audio clips..."></textarea>
+        </div>
+
+        <!-- Custom Branded Voices List -->
+        <div class="form-row">
+            <label>Step 2: Vocal Timbre & Identity Configuration Array</label>
+            <select id="vocalVoiceField">
+                <optgroup label="Standard Voices (Free Tier Access)">
+                    <option value="std-male">Standard Voice Engine - Narrator Male (Clear Explainer)</option>
+                    <option value="std-female">Standard Voice Engine - Narrator Female (Clear Explainer)</option>
+                </optgroup>
+                <optgroup id="premiumGroupHeader" label="Pro Storyteller Array (Requires Premium Tier Plan)">
+                    <option value="prem-adam" disabled>🔒 MotionSync Pro - Adam (Deep Storyteller Tone)</option>
+                    <option value="prem-rachel" disabled>🔒 MotionSync Pro - Rachel (Engaging Learning Teacher)</option>
+                </optgroup>
+                <optgroup id="maxGroupHeader" label="Elite Voice Matrix & Custom Arrays (Maximum Tier Only)">
+                    <option value="max-clone" disabled>🔒 SonaSync Custom Array - Personal Voice Cloning (Clone Your Voice)</option>
+                    <option value="max-news" disabled>🔒 SonaSync Global - Deep National Geographic News Anchor</option>
+                </optgroup>
+            </select>
+        </div>
+
+        <button class="btn" onclick="synthesizeVocalTrack()">Synthesize Audio Narrative Track</button>
+        
+        <div id="resultSection" class="audio-box">
+            <h3 style="margin-top:0;">Vocal Output Master Track</h3>
+            <p id="statusText" style="color: #a5b4fc; font-size: 14px;"></p>
+            <audio id="vocalAudioPlayer" controls></audio>
+            <br><br>
+            <button class="btn" style="background:#ffffff; color:#000000;" onclick="syncAudioToOutputTheater()">🎬 Sync Audio to Output Theater →</button>
+        </div>
+
+        <br>
+        <a href="explainer-studio.html" class="back-link">← Cancel & Return to Studio</a>
+    </div>
+
+    <script>
+        window.checkUserStatusChange = function() {
+            const userSim = document.getElementById("userTypeSim").value;
+            const subtext = document.getElementById("welcomeSubtext");
+            const premGroup = document.getElementById("premiumGroupHeader");
+            const maxGroup = document.getElementById("maxGroupHeader");
+            const voiceDropdown = document.getElementById("vocalVoiceField");
+            const options = voiceDropdown.getElementsByTagName("option");
+
+            if (userSim === "maxUser") {
+                subtext.innerText = "👑 Status: Maximum Core Unlocked. All 100% Voices & Voice Cloning Open.";
+                subtext.style.color = "#f59e0b";
+                premGroup.label = "Pro Storyteller Array (💎 Unlocked)";
+                maxGroup.label = "Elite Voice Matrix & Custom Arrays (💎 Unlocked)";
+                
+                for(let opt of options) { 
+                    opt.disabled = false; 
+                    if(opt.innerText.startsWith("🔒")) opt.innerText = opt.innerText.replace("🔒", "💎"); 
+                }
+            } else if (userSim === "premiumUser") {
+                subtext.innerText = "✨ Status: Premium Ad-Free Active. 50+ Storyteller Voices Unlocked.";
+                subtext.style.color = "#818cf8";
+                premGroup.label = "Pro Storyteller Array (💎 Unlocked)";
+                maxGroup.label = "Elite Voice Matrix & Custom Arrays (Requires Maximum Tier)";
+                
+                for(let opt of options) {
+                    if(opt.value.startsWith("prem-")) { opt.disabled = false; opt.innerText = opt.innerText.replace("🔒", "💎"); }
+                    if(opt.value.startsWith("max-")) { opt.disabled = true; if(!opt.innerText.startsWith("🔒")) opt.innerText = opt.innerText.replace("💎", "🔒"); }
+                }
+            } else {
+                subtext.innerText = "Status: Standard Voiceover Arrays Active";
+                subtext.style.color = "#9ca3af";
+                premGroup.label = "Pro Storyteller Array (Requires Premium Tier Plan)";
+                maxGroup.label = "Elite Voice Matrix & Custom Arrays (Requires Maximum Tier)";
+                
+                for(let opt of options) {
+                    if(opt.value.startsWith("prem-") || opt.value.startsWith("max-")) { opt.disabled = true; if(opt.innerText.startsWith("💎")) opt.innerText = opt.innerText.replace("💎", "🔒"); }
+                }
+                voiceDropdown.value = "std-male";
+            }
+        }
+
+        window.synthesizeVocalTrack = function() {
+            const scriptText = document.getElementById("vocalScriptField").value.trim();
+            const voiceChoice = document.getElementById("vocalVoiceField").value;
+            const simTier = document.getElementById("userTypeSim").value;
+            
+            if(!scriptText) return alert("Please specify your vocal narrative text script before synthesizing audio!");
+
+            if ((voiceChoice.startsWith("prem-") && simTier === "freeUser") || (voiceChoice.startsWith("max-") && simTier !== "maxUser")) {
+                alert("📢 REWARDED AD UNLOCK:\nYou selected a premium voice. Watch 1 brief video ad below to compile this vocal track for free!");
+            }
+
+            const box = document.getElementById("resultSection");
+            const status = document.getElementById("statusText");
+            const player = document.getElementById("vocalAudioPlayer");
+
+            box.style.display = "block";
+            status.innerText = "Connecting to voice modeling hub. Synthesizing waveforms...";
+            
+            player.src = "https://soundhelix.com";
+            status.innerText = "Speech waveform compilation complete!";
+        }
+
+        window.syncAudioToOutputTheater = function() {
+            alert("🔊 Voiceover master file pinned to sequence output buffer! Loading theater staging docks...");
+            window.location.href = "render-output.html";
+        }
+    </script>
+</body>
+</html>
