@@ -133,7 +133,7 @@
             }
         }
 
-        window.triggerShortExecution = function() {
+               window.triggerShortExecution = function() {
             const prompt = document.getElementById("shortPromptField").value.trim();
             const modelChoice = document.getElementById("shortModelField").value;
             const userSimMode = document.getElementById("userTypeSim").value;
@@ -144,18 +144,19 @@
             if(!prompt) return alert("Please write a short video prompt first!");
             if(parseInt(duration) > 30) return alert("Shorts are strictly capped at 30 seconds max!");
 
-            // SYSTEM HONEST AD VERIFICATION CHECK ENGINE
             if (modelChoice.startsWith("premium-") && userSimMode !== "premiumUser") {
                 const modelName = document.getElementById("shortModelField").options[document.getElementById("shortModelField").selectedIndex].text;
                 alert("📢 REWARDED AD UNLOCK:\nYou selected a Premium Engine (" + modelName + ").\n\nWatch 1 video ad to unlock this specific high-tier generation for 100% free!");
             }
 
-            // Cache data values to transport safely to render-output.html page
+            // Clean storage keys mapping data safely to Page 8
             localStorage.setItem("activePrompt", prompt);
+            localStorage.setItem("selectedEngine", modelChoice);
+            localStorage.setItem("modelChoice", modelChoice);
             localStorage.setItem("renderType", "Micro Short (" + targetRatio.replace("ratio-","") + ")");
             localStorage.setItem("resolutionQuality", targetRes);
 
-            // Pass user along the mind map nodes directly to Page 8
+            // Forward the user down the mind-map node
             window.location.href = "render-output.html";
         }
     </script>
