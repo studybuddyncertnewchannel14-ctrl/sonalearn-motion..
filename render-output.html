@@ -13,7 +13,7 @@
         .title-gradient { font-size: 28px; font-weight: 800; margin: 0 0 8px 0; background: linear-gradient(135deg, #fff, #a5b4fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .desc-sub { color: #9ca3af; font-size: 14px; margin-bottom: 20px; }
         
-        /* Video Canvas Box */
+        /* Video Canvas Display Box */
         .video-canvas { width: 100%; background: #000000; border-radius: 12px; border: 1px solid #2d2d34; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-top: 20px; }
         .video-canvas video { width: 100%; height: 100%; object-fit: contain; }
 
@@ -27,7 +27,7 @@
 <body>
 
     <div class="dashboard-layout">
-        <!-- Main Media Stage screen panel -->
+        <!-- Main Media Stage Screen Panel -->
         <div class="main-stage">
             <h2 class="title-gradient">SonaLearn Staging Theatre</h2>
             <p class="desc-sub" id="masterStatusText">Initializing secure rendering pipelines...</p>
@@ -52,18 +52,31 @@
 
         // Auto-run frame compiler on script launch
         async function runTheatrePipeline() {
+            // FIX 1: Read the selected engine model, defaulting to Wan 2.1 if empty
+            let chosenEngineSpace = localStorage.getItem("selectedEngine");
+            if (!chosenEngineSpace || chosenEngineSpace.startsWith("free-") || chosenEngineSpace.startsWith("premium-")) {
+                // Map the dropdown name keywords cleanly to working public server clusters
+                if (chosenEngineSpace === "free-ltx") {
+                    chosenEngineSpace = "aifsh/LTX-Video";
+                } else {
+                    chosenEngineSpace = "multimodalart/Wan2.1-2B-T2V"; // Default stable realistic engine
+                }
+            }
+            
             const cachedPrompt = localStorage.getItem("activePrompt") || "A cinematic science concept animation shot";
             const targetFormat = localStorage.getItem("renderType") || "Explainer Frame Video";
+            
+            // FIX 2: Safely read the corrected resolution tracking key names
             const qualityRes = localStorage.getItem("resolutionQuality") || "2k";
             
             const status = document.getElementById("masterStatusText");
             const player = document.getElementById("theatreVideoPlayer");
 
-            status.innerText = "Compiling " + targetFormat + " nodes at " + qualityRes.toUpperCase() + " resolution. Processing cloud packets...";
+            status.innerText = "Connecting to pipeline: [" + chosenEngineSpace + "]...\nCompiling " + targetFormat + " nodes at " + qualityRes.toUpperCase() + " resolution.";
 
             try {
-                // Fetching frames safely from high-speed free rendering pool clusters
-                const client = await Client.connect("aifsh/LTX-Video");
+                // Send the data packet straight to the dynamically selected engine slot!
+                const client = await Client.connect(chosenEngineSpace);
                 const result = await client.predict("/predict", { prompt: cachedPrompt });
                 
                 status.innerText = "Master track rendering complete at " + qualityRes.toUpperCase() + " resolution quality absolute!";
@@ -71,7 +84,8 @@
                 player.style.display = "block";
                 player.play();
             } catch(e) {
-                status.innerText = "Public clusters congested. Click the Adjust Prompts button on the sidebar to retry!";
+                console.error(e);
+                status.innerText = "The public " + qualityRes.toUpperCase() + " server node is currently crowded or sleeping. Click 'Adjust Prompt Settings' on the sidebar to trigger a fresh render call!";
             }
         }
 
@@ -85,20 +99,16 @@
             link.click();
         }
 
-        /* DIGITAL MACHINE CORE: COPIES THE ENTIRE `.MP4` FILE DIRECTLY INTO SYSTEM REGISTRIES */
         window.copyPhysicalVideoToClipboard = async function() {
             const src = document.getElementById("theatreVideoPlayer").src;
             const btn = document.getElementById("copyFileBtn");
-            if(!src) return alert("No active render file data available to bind to clipboard registers!");
+            if(!src) return alert("No active render file data available to copy yet!");
             
             btn.innerText = "⏳ Packaging Video File Data...";
 
             try {
-                // Extracting raw data bytes from the secure cloud pipeline array stream
                 const response = await fetch(src);
                 const fileBlob = await response.blob();
-                
-                // Constructing native browser clipboard file package items
                 const item = new ClipboardItem({ [fileBlob.type]: fileBlob });
                 await navigator.clipboard.write([item]);
                 
