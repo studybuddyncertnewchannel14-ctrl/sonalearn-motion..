@@ -11,13 +11,13 @@
         .dashboard-layout { display: flex; width: 100%; max-width: 1100px; margin: auto; padding: 40px 20px; gap: 30px; box-sizing: border-box; }
         .main-stage { flex: 1; background: #0a0a0c; border: 1px solid #1f1f23; padding: 35px; border-radius: 24px; text-align: left; }
         .title-gradient { font-size: 28px; font-weight: 800; margin: 0 0 8px 0; background: linear-gradient(135deg, #fff, #a5b4fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .desc-sub { color: #9ca3af; font-size: 14px; margin-bottom: 20px; }
+        .desc-sub { color: #9ca3af; font-size: 14px; margin-bottom: 20px; white-space: pre-line; }
         
-        /* Video Canvas Display Box */
+        /* Video Canvas Box Layout */
         .video-canvas { width: 100%; background: #000000; border-radius: 12px; border: 1px solid #2d2d34; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-top: 20px; }
         .video-canvas video { width: 100%; height: 100%; object-fit: contain; }
 
-        /* The Custom Project Sidebar Menu Layout */
+        /* Sidebar Control Columns Layout */
         .sidebar { width: 260px; background: #0a0a0c; border: 1px solid #1f1f23; padding: 25px; border-radius: 24px; box-sizing: border-box; text-align: left; height: fit-content; }
         .sidebar h4 { margin: 0 0 15px 0; font-size: 14px; color: #fff; letter-spacing: 0.5px; border-bottom: 1px solid #1f1f23; padding-bottom: 10px; text-transform: uppercase; }
         .side-opt { display: block; width: 100%; padding: 12px; background: #111115; border: 1px solid #1f1f23; border-radius: 8px; color: #d1d5db; font-size: 13px; font-weight: 500; text-align: left; cursor: pointer; margin-bottom: 10px; border-left: 3px solid transparent; transition: 0.2s; font-family: inherit; }
@@ -27,7 +27,6 @@
 <body>
 
     <div class="dashboard-layout">
-        <!-- Main Media Stage Screen Panel -->
         <div class="main-stage">
             <h2 class="title-gradient">SonaLearn Staging Theatre</h2>
             <p class="desc-sub" id="masterStatusText">Initializing secure rendering pipelines...</p>
@@ -37,62 +36,67 @@
             </div>
         </div>
         
-        <!-- The Functional Right Sidebar Command Column Menu -->
         <div class="sidebar">
-            <h4>🛠️ Project Panel</h4>
+            <h4>🛠| Project Panel</h4>
             <button class="side-opt" onclick="triggerLocalDownload()">📥 Download Video Clip</button>
-            <button class="side-opt" id="copyFileBtn" onclick="copyPhysicalVideoToClipboard()">🎞️ Copy Video File</button>
+            <button class="side-opt" id="copyFileBtn" onclick="copyPhysicalVideoToClipboard()">🎞| Copy Video File</button>
             <button class="side-opt" onclick="window.history.back()">🔄 Adjust Prompt Settings</button>
-            <button class="side-opt" style="margin-top: 40px; color:#f87171;" onclick="window.location.href='index.html'">Door Exit Laboratory</button>
+            <button class="side-opt" style="margin-top: 40px; color:#f87171;" onclick="window.location.href='index.html'">🚪 Exit Laboratory</button>
         </div>
     </div>
 
     <script type="module">
         import { Client } from "https://jsdelivr.net";
 
-        // Auto-run frame compiler on script launch
         async function runTheatrePipeline() {
-            // FIX 1: Read the selected engine model, defaulting to Wan 2.1 if empty
-            let chosenEngineSpace = localStorage.getItem("selectedEngine");
-            if (!chosenEngineSpace || chosenEngineSpace.startsWith("free-") || chosenEngineSpace.startsWith("premium-")) {
-                // Map the dropdown name keywords cleanly to working public server clusters
-                if (chosenEngineSpace === "free-ltx") {
-                    chosenEngineSpace = "aifsh/LTX-Video";
-                } else {
-                    chosenEngineSpace = "multimodalart/Wan2.1-2B-T2V"; // Default stable realistic engine
-                }
-            }
-            
-            const cachedPrompt = localStorage.getItem("activePrompt") || "A cinematic science concept animation shot";
-            const targetFormat = localStorage.getItem("renderType") || "Explainer Frame Video";
-            
-            // FIX 2: Safely read the corrected resolution tracking key names
-            const qualityRes = localStorage.getItem("resolutionQuality") || "2k";
-            
             const status = document.getElementById("masterStatusText");
             const player = document.getElementById("theatreVideoPlayer");
 
-            status.innerText = "Connecting to pipeline: [" + chosenEngineSpace + "]...\nCompiling " + targetFormat + " nodes at " + qualityRes.toUpperCase() + " resolution.";
+            // FIX 1: Safe Multi-Key Tracking Fallback Engine Check
+            let modelChoice = localStorage.getItem("selectedEngine") || localStorage.getItem("modelChoice") || "free-wan";
+            let chosenSpace = "multimodalart/Wan2.1-2B-T2V"; // Stable default cinematic cluster node
+
+            const cachedPrompt = localStorage.getItem("activePrompt") || "A professional clean science concept explainer animation";
+            const targetFormat = localStorage.getItem("renderType") || "Studio Video Clip";
+            const qualityRes = localStorage.getItem("resolutionQuality") || "2k";
+
+            status.innerText = "Connecting to cloud pipeline parameters...\nCompiling [" + targetFormat + "] at " + qualityRes.toUpperCase() + " resolution.";
 
             try {
-                // Send the data packet straight to the dynamically selected engine slot!
-                const client = await Client.connect(chosenEngineSpace);
-                const result = await client.predict("/predict", { prompt: cachedPrompt });
+                // Connect straight into the high-intelligence Wan 2.1 public cluster network
+                const client = await Client.connect(chosenSpace);
                 
-                status.innerText = "Master track rendering complete at " + qualityRes.toUpperCase() + " resolution quality absolute!";
-                player.src = result.data.url;
-                player.style.display = "block";
-                player.play();
+                // FIX 2: Universal dynamic text-to-video API prediction format mapping
+                const result = await client.predict("/predict", { 
+                    prompt: cachedPrompt 
+                });
+                
+                // Handle different array data objects sent back by different spaces safely
+                let videoUrl = "";
+                if (result && result.data && result.data[0]) {
+                    videoUrl = result.data[0].url || result.data[0];
+                } else if (result && result.data) {
+                    videoUrl = result.data.url || result.data;
+                }
+
+                if (videoUrl) {
+                    status.innerText = "Master track rendering complete at " + qualityRes.toUpperCase() + " resolution quality absolute!";
+                    player.src = videoUrl;
+                    player.style.display = "block";
+                    player.play();
+                } else {
+                    status.innerText = "Video container rendered empty. Click 'Adjust Prompt Settings' to try a alternate concept prompt!";
+                }
+
             } catch(e) {
                 console.error(e);
-                status.innerText = "The public " + qualityRes.toUpperCase() + " server node is currently crowded or sleeping. Click 'Adjust Prompt Settings' on the sidebar to trigger a fresh render call!";
+                status.innerText = "The free public cloud server node is currently crowded with heavy worldwide traffic.\n\nClick 'Adjust Prompt Settings' on the sidebar to send a fresh pipeline call!";
             }
         }
 
         window.triggerLocalDownload = function() {
             const src = document.getElementById("theatreVideoPlayer").src;
-            if(!src) return alert("No render items available to export yet!");
-            
+            if(!src) return alert("No active video track compiled to download yet!");
             const link = document.createElement('a');
             link.href = src;
             link.download = 'SonaLearn_Master_Output.mp4';
@@ -102,7 +106,7 @@
         window.copyPhysicalVideoToClipboard = async function() {
             const src = document.getElementById("theatreVideoPlayer").src;
             const btn = document.getElementById("copyFileBtn");
-            if(!src) return alert("No active render file data available to copy yet!");
+            if(!src) return alert("No active render file data available to bundle into clipboard registers!");
             
             btn.innerText = "⏳ Packaging Video File Data...";
 
@@ -111,13 +115,12 @@
                 const fileBlob = await response.blob();
                 const item = new ClipboardItem({ [fileBlob.type]: fileBlob });
                 await navigator.clipboard.write([item]);
-                
                 btn.innerText = "✅ Video File Copied!";
-                setTimeout(() => { btn.innerText = "🎞️ Copy Video File"; }, 2500);
+                setTimeout(() => { btn.innerText = "🎞| Copy Video File"; }, 2500);
             } catch (err) {
                 btn.innerText = "❌ Copy Restricted";
                 alert("Your browser security profiles blocked background data clipboard copying. Use the sidebar Download button instead!");
-                setTimeout(() => { btn.innerText = "🎞️ Copy Video File"; }, 2500);
+                setTimeout(() => { btn.innerText = "🎞| Copy Video File"; }, 2500);
             }
         }
 
