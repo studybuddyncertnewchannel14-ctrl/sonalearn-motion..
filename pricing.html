@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SonaLearn-Motion | Membership Plans</title>
+    <style>
+        @import url('https://googleapis.com');
+        body { font-family: 'Inter', sans-serif; background-color: #000000; color: #f3f4f6; margin: 0; padding: 40px 20px; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 950px; background: #0a0a0c; padding: 40px; border-radius: 24px; border: 1px solid #1f1f23; text-align: center; }
+        .title { font-size: 38px; font-weight: 800; background: linear-gradient(135deg, #ffffff, #a5b4fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0 0 10px 0; }
+        .sub { color: #9ca3af; font-size: 15px; margin-bottom: 35px; }
+        
+        .promo-card { background: #111115; border: 1px dashed #818cf8; padding: 20px; border-radius: 16px; max-width: 500px; margin: 0 auto 40px auto; text-align: left; }
+        .promo-card label { display: block; font-size: 12px; font-weight: 600; color: #818cf8; text-transform: uppercase; margin-bottom: 8px; }
+        .promo-flex { display: flex; gap: 10px; }
+        .promo-input { flex: 1; background: #18181c; color: #fff; border: 1px solid #2d2d34; padding: 12px; border-radius: 8px; font-size: 14px; outline: none; }
+        .promo-btn { background: #818cf8; color: #fff; border: none; padding: 0 20px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px; }
+        .promo-msg { font-size: 13px; margin-top: 10px; font-weight: 500; display: none; }
+
+        .plans-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; margin-bottom: 30px; }
+        .plan-card { background: #111115; border: 1px solid #1f1f23; border-radius: 18px; padding: 30px; text-align: left; display: flex; flex-direction: column; transition: 0.2s; }
+        .plan-card:hover { border-color: #3a3a4c; transform: translateY(-2px); }
+        .plan-card.max-tier { border-color: #f59e0b; background: rgba(245,158,11,0.02); }
+        .plan-card h3 { margin: 0 0 10px 0; font-size: 22px; color: #fff; }
+        .price-text { font-size: 32px; font-weight: 800; color: #fff; margin-bottom: 20px; }
+        .price-sub { font-size: 12px; color: #9ca3af; font-weight: 400; }
+        .custom-note { font-size: 13px; color: #818cf8; margin-bottom: 15px; font-weight: 600; line-height: 1.4; }
+        
+        .features-list { list-style: none; padding: 0; margin: 0 0 25px 0; font-size: 13px; color: #d1d5db; line-height: 1.8; flex-grow: 1; }
+        .features-list li::before { content: "✓ "; color: #818cf8; font-weight: bold; margin-right: 6px; }
+        .plan-card.max-tier .features-list li::before { content: "👑 "; color: #f59e0b; }
+        
+        .buy-btn { width: 100%; padding: 12px; border-radius: 8px; font-weight: 600; font-size: 14px; border: none; cursor: pointer; text-align: center; text-decoration: none; margin-top: auto; box-sizing: border-box; display: block; }
+        .free-btn { background: #18181c; color: #9ca3af; border: 1px solid #2d2d34; }
+        .prem-btn { background: #fff; color: #000; }
+        .max-btn { background: #f59e0b; color: #000; }
+        .back-link { display: inline-block; margin-top: 30px; color: #9ca3af; text-decoration: underline; font-size: 14px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2 class="title">SonaLearn-Motion Labs Membership</h2>
+        <p class="sub">Choose an engineering pipeline tier to unlock hyper-fidelity creation tracks.</p>
+
+        <div class="promo-card">
+            <label>🔓 Creator Milestone Discount Box</label>
+            <div class="promo-flex">
+                <input type="text" id="couponCodeField" class="promo-input" placeholder="Enter community code (e.g., SANGAM500K)">
+                <button class="promo-btn" onclick="applyMilestoneVoucher()">Apply</button>
+            </div>
+            <div id="couponStatusText" class="promo-msg"></div>
+        </div>
+
+        <div class="plans-grid">
+            
+            <!-- Tier 1: Free (With Your Custom Note Added!) -->
+            <div class="plan-card">
+                <h3>Standard Free</h3>
+                <div class="price-text">Make Free <span class="price-sub">/ forever</span></div>
+                <div class="custom-note">💡 This plan is your default plan which doesn't cost anything, just do what you want to!</div>
+                <ul class="features-list">
+                    <li>Unlimited Ad-Free basic rendering engines</li>
+                    <li>Premium engines unlocked via 1 quick ad</li>
+                    <li>Free Aspect Ratio canvas switches (9:16, 16:9, 1:1)</li>
+                    <li>Standard 2K output resolutions</li>
+                </ul>
+                <a href="format-selector.html" class="buy-btn free-btn">Access Free Desk</a>
+            </div>
+
+            <!-- Tier 2: Premium Package -->
+            <div class="plan-card">
+                <h3>Premium Plan</h3>
+                <div class="price-text"><span id="pPrice">₹30</span> <span class="price-sub">/ month</span></div>
+                <div style="font-size:11px; color:#818cf8; margin-bottom:15px; font-weight:600;">Slots: 6-Mo (₹150) | 1-Yr (₹250)</div>
+                <ul class="features-list">
+                    <li>100% Ad-Free studio environment everywhere</li>
+                    <li>Unlocks Ultra HD 4K rendering layers</li>
+                    <li>Sona-Writer AI Assistant (Powered by 3.5 Haiku)</li>
+                    <li>50+ ultra-realistic ElevenLabs creator voices</li>
+                    <li>Standard synchronized educational subtitles</li>
+                </ul>
+                <button class="buy-btn prem-btn" onclick="alert('Proceeding to secure Razorpay UPI gateway for Premium Tier!')">Select Premium</button>
+            </div>
+
+            <!-- Tier 3: Elite Maximum Package -->
+            <div class="plan-card max-tier">
+                <h3>Maximum Plan</h3>
+                <div class="price-text"><span id="mPrice">₹300</span> <span class="price-sub">/ month</span></div>
+                <div style="font-size:11px; color:#f59e0b; margin-bottom:15px; font-weight:600;">Slots: 6-Mo (₹550) | 1-Yr (₹1000)</div>
+                <ul class="features-list">
+                    <li>Cinematic Super Resolution 8K mastering</li>
+                    <li>Sona-Writer Max Engine (Powered by 3.5 Sonnet)</li>
+                    <li>100% of ElevenLabs voice arrays & accents</li>
+                    <li>Personal Voice Cloning studio access</li>
+                    <li>Automated 1-Min Sequence Studio Stitcher</li>
+                    <li>Animated subtitles & lip-synced AI Teachers</li>
+                </ul>
+                <button class="buy-btn max-btn" onclick="alert('Proceeding to secure Razorpay UPI gateway for Maximum Tier!')">Select Maximum</button>
+            </div>
+
+        </div>
+
+        <a href="index.html" class="back-link">← Return to Main Gate</a>
+    </div>
+
+    <script>
+        window.applyMilestoneVoucher = function() {
+            const codeInput = document.getElementById("couponCodeField").value.trim().toUpperCase();
+            const message = document.getElementById("couponStatusText");
+            
+            const pPriceLabel = document.getElementById("pPrice");
+            const mPriceLabel = document.getElementById("mPrice");
+
+            message.style.display = "block";
+
+            if (codeInput === "SANGAM500K" || codeInput === "SONA1M" || codeInput === "ISRO2026") {
+                message.style.color = "#22c55e";
+                message.innerText = "✨ Milestone Verification Absolute! Code used: [342/500]. 20% discount applied to all premium plans!";
+                pPriceLabel.innerText = "₹24";
+                mPriceLabel.innerText = "₹240";
+            } else if (codeInput === "EXPIRED") {
+                message.style.color = "#ef4444";
+                message.innerText = "⚠️ Limit Exhausted: This specific milestone code has already been claimed by 500 users!";
+            } else {
+                message.style.color = "#ef4444";
+                message.innerText = "❌ Verification Failed: Invalid milestone unlock code. Check the channel community tab!";
+            }
+        }
+    </script>
+</body>
+</html>
