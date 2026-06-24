@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SonaLearn-Motion | Format Selector</title>
+    <style>
+        @import url('https://googleapis.com');
+        body { font-family: 'Inter', sans-serif; background-color: #000000; color: #f3f4f6; margin: 0; padding: 40px 20px; display: flex; align-items: center; justify-content: center; min-height: 100vh; box-sizing: border-box; }
+        .container { width: 100%; max-width: 850px; background: #0a0a0c; padding: 40px; border-radius: 24px; border: 1px solid #1f1f23; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.9); }
+        .title { font-size: 36px; font-weight: 800; margin: 0 0 8px 0; background: linear-gradient(135deg, #ffffff, #a5b4fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .sub { color: #9ca3af; font-size: 14px; margin-bottom: 35px; }
+        
+        /* Two Branch Choice Cards Layout */
+        .selector-box-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 20px; }
+        .choice-card { display: block; background: #111115; border: 1px solid #1f1f23; padding: 30px; border-radius: 16px; text-align: left; text-decoration: none; color: inherit; transition: 0.2s; }
+        .choice-card:hover { border-color: #6366f1; background: #14141c; transform: translateY(-2px); }
+        .choice-card h3 { margin: 0 0 10px 0; color: #ffffff; font-size: 20px; display: flex; align-items: center; justify-content: space-between; }
+        .choice-card p { color: #9ca3af; font-size: 14px; line-height: 1.5; margin: 0; }
+        .badge-tag { font-size: 11px; background: rgba(99,102,241,0.15); color: #818cf8; padding: 4px 10px; border-radius: 12px; font-weight: 600; }
+        
+        .back-link { display: inline-block; margin-top: 35px; color: #9ca3af; text-decoration: underline; font-size: 14px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2 class="title">Select Creation Profile</h2>
+        <p class="sub">Choose a video construction layout tailored for your educational delivery platform channels.</p>
+        
+        <div class="selector-box-grid">
+            <!-- Long Widescreen Navigation Branch -->
+            <a href="explainer-studio.html" class="choice-card">
+                <h3><span>🎬 Explainer Mode</span> <span class="badge-tag">1:00 Mins</span></h3>
+                <p>Construct comprehensive lectures utilizing a chronological layout sequence of 4 interconnected timeline frames chained back-to-back.</p>
+            </a>
+            
+            <!-- Mobile Portrait Shorts Navigation Branch -->
+            <a href="shorts-studio.html" class="choice-card">
+                <h3><span>📱 Micro Shorts Mode</span> <span class="badge-tag">30s Max</span></h3>
+                <p>Generate snappy standalone video cards customized perfectly for vertical smartphone platforms, mobile reels, and short feeds.</p>
+            </a>
+        </div>
+
+        <a href="index.html" class="back-link">← Cancel & Back to Gate</a>
+    </div>
+
+</body>
+</html>
