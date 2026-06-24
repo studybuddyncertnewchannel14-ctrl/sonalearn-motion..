@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SonaLearn-Motion | Sona-Writer AI</title>
+    <style>
+        @import url('https://googleapis.com');
+        body { font-family: 'Inter', sans-serif; background-color: #000000; color: #f3f4f6; margin: 0; padding: 40px 20px; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 650px; background: #0a0a0c; padding: 40px; border-radius: 24px; border: 1px solid #1f1f23; text-align: center; }
+        .title { font-size: 32px; font-weight: 800; background: linear-gradient(135deg, #fff, #a5b4fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0 0 5px 0; }
+        .sub { color: #9ca3af; font-size: 14px; margin-bottom: 30px; }
+        
+        .form-row { text-align: left; margin-bottom: 20px; }
+        .form-row label { display: block; font-size: 13px; color: #9ca3af; margin-bottom: 8px; font-weight: 500; }
+        textarea, select { width: 100%; background: #18181c; color: #fff; border: 1px solid #2d2d34; padding: 12px; border-radius: 10px; box-sizing: border-box; font-size: 14px; outline: none; }
+        textarea { height: 75px; resize: none; font-family: inherit; }
+        
+        .btn { background: #ffffff; color: #000000; border: none; padding: 14px 28px; font-weight: 600; border-radius: 10px; cursor: pointer; width: 100%; font-size: 16px; margin-top: 10px; }
+        .btn:hover { background: #e5e7eb; }
+        
+        /* Script Result Window styling */
+        .output-box { margin-top: 30px; display: none; background: #111115; padding: 25px; border-radius: 16px; border: 1px solid #1f1f23; text-align: left; }
+        .output-box h3 { margin-top: 0; color: #fff; font-size: 18px; border-bottom: 1px solid #1f1f23; padding-bottom: 10px; }
+        .generated-text { background: #0b0c10; border: 1px solid #2d2d34; padding: 15px; border-radius: 10px; color: #d1d5db; font-size: 14px; line-height: 1.6; white-space: pre-wrap; margin-bottom: 15px; min-height: 100px; }
+        .back-link { display: inline-block; margin-top: 25px; color: #9ca3af; text-decoration: underline; font-size: 14px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2 class="title">Sona-Writer AI Copilot 📜</h2>
+        <p class="sub">Brainstorm and auto-generate highly engaging scripts for viral educational content channels.</p>
+        
+        <!-- Step 1: Input Topic -->
+        <div class="form-row">
+            <label>Step 1: Enter Your Educational Video Topic</label>
+            <textarea id="writerTopicInput" placeholder="e.g. How Black Holes warp space and gravity time dilation, physics lesson"></textarea>
+        </div>
+
+        <!-- Step 2: Custom Branded Script Models Selector -->
+        <div class="form-row">
+            <label>Step 2: Script Intelligence Matrix (Branded Engines)</label>
+            <select id="writerEngineSelect">
+                <option value="v15">SonaLearn Script-Engine v1.5 (Standard Brief Layouts - Free)</option>
+                <option value="haiku">SonaLearn Script-Engine v2.0 Pro (Deep Conceptual Writing - Premium)</option>
+                <option value="sonnet">👑 SonaLearn Script-Engine Ultra Max (Viral Storytelling Intelligence - Maximum Exclusive)</option>
+            </select>
+        </div>
+
+        <button class="btn" onclick="generateScriptViaSonaWriter()">Draft Educational Script</button>
+        
+        <!-- Script Output Card Area -->
+        <div id="writerOutputCard" class="output-box">
+            <h3>📝 Compiled Script Workspace</h3>
+            <div id="scriptContentBox" class="generated-text"></div>
+            <button class="btn" style="background: #818cf8; color: white;" onclick="exportScriptToStudioCanvas()">🎬 Export Script to Explainer Canvas</button>
+        </div>
+
+        <br>
+        <a href="explainer-studio.html" class="back-link">← Cancel & Return to Studio</a>
+    </div>
+
+    <script type="module">
+        import { Client } from "https://jsdelivr.net";
+
+        window.generateScriptViaSonaWriter = async function() {
+            const topic = document.getElementById("writerTopicInput").value.trim();
+            const chosenEngine = document.getElementById("writerEngineSelect").value;
+            
+            if(!topic) return alert("Please specify an educational topic prompt for Sona-Writer!");
+
+            const card = document.getElementById("writerOutputCard");
+            const textBox = document.getElementById("scriptContentBox");
+            
+            card.style.display = "block";
+            textBox.innerText = "Sona-Writer core initialization sequence executing... Accessing linguistic matrix nodes.";
+
+            try {
+                // Using a fast text inference node behind the scenes to run the custom engine cleanly
+                const client = await Client.connect("Qwen/Qwen2.5-72B-Instruct");
+                const response = await client.predict("/model_chat", {
+                    query: "Act as an educational script writer. Write a short, highly engaging video script outline about this topic: " + topic,
+                    history: []
+                });
+                
+                // Extract clean output response string text
+                const finalScriptText = response[1][0][1] || "Script generation cycle complete. Review frames.";
+                textBox.innerText = finalScriptText;
+                
+            } catch(e) {
+                console.error(e);
+                // System fallback mechanism if cloud node queues are crowded
+                textBox.innerText = "✨ Sona-Writer Script Draft:\n\n[Topic: " + topic + "]\n\nSCENE 1 (INTRODUCTION):\nWelcome back! Today we are exploring the science of this topic. Let's look closely at how this works in real life.\n\nSCENE 2 (CORE CONCEPT):\nHere is the main science fact you need to understand. Pay close attention to how the elements react to forces!\n\n[Website servers busy with heavy traffic pipelines. Feel free to copy this custom structural starter blueprint template directly!]";
+            }
+        }
+
+        window.exportScriptToStudioCanvas = function() {
+            const compiledText = document.getElementById("scriptContentBox").innerText;
+            
+            // Lock script into localized buffer arrays to unpack cleanly inside explainer panels
+            localStorage.setItem("importedScript", compiledText);
+            alert("🚀 Script text compiled into internal workspace! Teleporting you straight back to the Explainer sequence boards.");
+            
+            // Send user straight back up node lines to Page 4 
+            window.location.href = "explainer-studio.html";
+        }
+    </script>
+</body>
+</html>
