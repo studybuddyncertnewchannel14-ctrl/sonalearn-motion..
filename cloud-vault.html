@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SonaLearn-Motion | Project Vault</title>
+    <style>
+        @import url('https://googleapis.com');
+        body { font-family: 'Inter', sans-serif; background-color: #000000; color: #f3f4f6; margin: 0; padding: 40px 20px; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 750px; background: #0a0a0c; padding: 40px; border-radius: 24px; border: 1px solid #1f1f23; text-align: center; position: relative; }
+        .title { font-size: 32px; font-weight: 800; background: linear-gradient(135deg, #fff, #a5b4fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0 0 5px 0; }
+        .sub { color: #9ca3af; font-size: 14px; margin-bottom: 35px; }
+        
+        /* Developer Testing Switch Box */
+        .account-tester-panel { background: #16161a; border: 1px dashed #3a3a4c; padding: 12px; border-radius: 12px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; text-align: left; }
+        .account-tester-panel span { font-size: 12px; color: #9ca3af; font-weight: 600; }
+        .tester-select { width: auto; background: #22222b; color: #fff; padding: 6px 12px; font-size: 12px; border: 1px solid #444; border-radius: 6px; outline: none; }
+
+        /* Blur Lock screen overlay for Free Tier Profiles */
+        .vault-lock-screen { background: rgba(10,10,12,0.8); border: 1px solid #2d2d34; border-radius: 16px; padding: 40px 20px; text-align: center; backdrop-filter: blur(8px); margin-top: 20px; }
+        .lock-icon { font-size: 40px; margin-bottom: 15px; }
+        .lock-title { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+        .lock-desc { color: #9ca3af; font-size: 14px; margin-bottom: 25px; max-width: 400px; margin-left: auto; margin-right: auto; line-height: 1.5; }
+        .upgrade-btn { display: inline-block; background: #fff; color: #000; border: none; padding: 12px 24px; font-weight: 700; border-radius: 8px; text-decoration: none; font-size: 14px; }
+        .upgrade-btn:hover { background: #e5e7eb; }
+
+        /* The Active Unlocked Gallery Grid for Paid Members */
+        .vault-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; text-align: left; display: none; }
+        .vault-item { background: #111115; border: 1px solid #1f1f23; border-radius: 14px; padding: 20px; }
+        .vault-item h4 { margin: 0 0 8px 0; font-size: 15px; color: #fff; }
+        .vault-item p { margin: 0 0 15px 0; font-size: 13px; color: #9ca3af; line-height: 1.4; }
+        .load-btn { background: #18181c; color: #818cf8; border: 1px solid #2d2d34; padding: 8px 16px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; width: 100%; transition: 0.2s; }
+        .load-btn:hover { background: #222230; border-color: #6366f1; }
+        
+        .back-link { display: inline-block; margin-top: 35px; color: #9ca3af; text-decoration: underline; font-size: 14px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Sandbox Control Switch -->
+        <div class="account-tester-panel">
+            <span>🛠️ Developer Sandbox Account Mode:</span>
+            <select id="userTypeSim" class="tester-select" onchange="checkVaultPermissionsTier()">
+                <option value="freeUser">Free Account Mode (Standard)</option>
+                <option value="premiumUser">🏆 Premium Active Member (Vault Unlocked)</option>
+            </select>
+        </div>
+
+        <h2 class="title">Personal Project Vault Cloud 📦</h2>
+        <p class="sub" id="vaultStatusSub">Secure backup node arrays for historic sequence assets.</p>
+
+        <!-- STATE A: LOCK SCREEN FOR FREE ACCOUNTS -->
+        <div id="vaultLockScreen" class="vault-lock-screen">
+            <div class="lock-icon">🔒</div>
+            <div class="lock-title">Cloud Backup Locker Restricted</div>
+            <div class="lock-desc">Your current default profile does not include remote memory banks. Upgrade to Premium to auto-save prompt sheets and keep an infinite history logs vault!</div>
+            <a href="pricing.html" class="upgrade-btn">Unlock Cloud Vault</a>
+        </div>
+
+        <!-- STATE B: UNLOCKED GRID LOG FOR MEMBERS -->
+        <div id="unlockedVaultGrid" class="vault-grid">
+            <div class="vault-item">
+                <h4>🎬 Explainer Log #104</h4>
+                <p>"A cinematic detailed 3D diagram explaining how gravitational waves warp spacetime tissue arrays..."</p>
+                <button class="load-btn" onclick="alert('Loading script parameters and data blocks into creation deck!')">Restore Project File</button>
+            </div>
+            <div class="vault-item">
+                <h4>📱 Micro Short Clip #88</h4>
+                <p>"High speed atomic animation showcasing photosynthesis reactions tracking inside green leaf molecular cells..."</p>
+                <button class="load-btn" onclick="alert('Loading script parameters and data blocks into creation deck!')">Restore Project File</button>
+            </div>
+        </div>
+
+        <br>
+        <a href="index.html" class="back-link">← Return to Main Gate</a>
+    </div>
+
+    <script>
+        window.checkVaultPermissionsTier = function() {
+            const currentSimMode = document.getElementById("userTypeSim").value;
+            const lockView = document.getElementById("vaultLockScreen");
+            const gridView = document.getElementById("unlockedVaultGrid");
+            const subTitle = document.getElementById("vaultStatusSub");
+
+            if (currentSimMode === "premiumUser") {
+                lockView.style.display = "none";
+                gridView.style.display = "grid";
+                subTitle.innerText = "✨ Connected to Secure Data Vault Memory Banks successfully!";
+                subTitle.style.color = "#22c55e";
+            } else {
+                lockView.style.display = "block";
+                gridView.style.display = "none";
+                subTitle.innerText = "Secure backup node arrays for historic sequence assets.";
+                subTitle.style.color = "#9ca3af";
+            }
+        }
+    </script>
+</body>
+</html>
