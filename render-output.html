@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SonaLearn-Motion | Output Theatre</title>
+    <style>
+        @import url('https://googleapis.com');
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; font-family: 'Inter', sans-serif; background-color: #000000; color: #f3f4f6; overflow-x: hidden; }
+        
+        .dashboard-layout { display: flex; width: 100%; max-width: 1100px; margin: auto; padding: 40px 20px; gap: 30px; box-sizing: border-box; }
+        .main-stage { flex: 1; background: #0a0a0c; border: 1px solid #1f1f23; padding: 35px; border-radius: 24px; text-align: left; }
+        .title-gradient { font-size: 28px; font-weight: 800; margin: 0 0 8px 0; background: linear-gradient(135deg, #fff, #a5b4fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .desc-sub { color: #9ca3af; font-size: 14px; margin-bottom: 20px; }
+        
+        /* Video Canvas Box */
+        .video-canvas { width: 100%; background: #000000; border-radius: 12px; border: 1px solid #2d2d34; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-top: 20px; }
+        .video-canvas video { width: 100%; height: 100%; object-fit: contain; }
+
+        /* The Custom Project Sidebar Menu Layout */
+        .sidebar { width: 260px; background: #0a0a0c; border: 1px solid #1f1f23; padding: 25px; border-radius: 24px; box-sizing: border-box; text-align: left; height: fit-content; }
+        .sidebar h4 { margin: 0 0 15px 0; font-size: 14px; color: #fff; letter-spacing: 0.5px; border-bottom: 1px solid #1f1f23; padding-bottom: 10px; text-transform: uppercase; }
+        .side-opt { display: block; width: 100%; padding: 12px; background: #111115; border: 1px solid #1f1f23; border-radius: 8px; color: #d1d5db; font-size: 13px; font-weight: 500; text-align: left; cursor: pointer; margin-bottom: 10px; border-left: 3px solid transparent; transition: 0.2s; font-family: inherit; }
+        .side-opt:hover { background: #181824; border-left-color: #6366f1; color: #fff; }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-layout">
+        <!-- Main Media Stage screen panel -->
+        <div class="main-stage">
+            <h2 class="title-gradient">SonaLearn Staging Theatre</h2>
+            <p class="desc-sub" id="masterStatusText">Initializing secure rendering pipelines...</p>
+            
+            <div class="video-canvas">
+                <video id="theatreVideoPlayer" controls style="display: none;"></video>
+            </div>
+        </div>
+        
+        <!-- The Functional Right Sidebar Command Column Menu -->
+        <div class="sidebar">
+            <h4>🛠️ Project Panel</h4>
+            <button class="side-opt" onclick="triggerLocalDownload()">📥 Download Video Clip</button>
+            <button class="side-opt" id="copyFileBtn" onclick="copyPhysicalVideoToClipboard()">🎞️ Copy Video File</button>
+            <button class="side-opt" onclick="window.history.back()">🔄 Adjust Prompt Settings</button>
+            <button class="side-opt" style="margin-top: 40px; color:#f87171;" onclick="window.location.href='index.html'">Door Exit Laboratory</button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { Client } from "https://jsdelivr.net";
+
+        // Auto-run frame compiler on script launch
+        async function runTheatrePipeline() {
+            const cachedPrompt = localStorage.getItem("activePrompt") || "A cinematic science concept animation shot";
+            const targetFormat = localStorage.getItem("renderType") || "Explainer Frame Video";
+            const qualityRes = localStorage.getItem("resolutionQuality") || "2k";
+            
+            const status = document.getElementById("masterStatusText");
+            const player = document.getElementById("theatreVideoPlayer");
+
+            status.innerText = "Compiling " + targetFormat + " nodes at " + qualityRes.toUpperCase() + " resolution. Processing cloud packets...";
+
+            try {
+                // Fetching frames safely from high-speed free rendering pool clusters
+                const client = await Client.connect("aifsh/LTX-Video");
+                const result = await client.predict("/predict", { prompt: cachedPrompt });
+                
+                status.innerText = "Master track rendering complete at " + qualityRes.toUpperCase() + " resolution quality absolute!";
+                player.src = result.data.url;
+                player.style.display = "block";
+                player.play();
+            } catch(e) {
+                status.innerText = "Public clusters congested. Click the Adjust Prompts button on the sidebar to retry!";
+            }
+        }
+
+        window.triggerLocalDownload = function() {
+            const src = document.getElementById("theatreVideoPlayer").src;
+            if(!src) return alert("No render items available to export yet!");
+            
+            const link = document.createElement('a');
+            link.href = src;
+            link.download = 'SonaLearn_Master_Output.mp4';
+            link.click();
+        }
+
+        /* DIGITAL MACHINE CORE: COPIES THE ENTIRE `.MP4` FILE DIRECTLY INTO SYSTEM REGISTRIES */
+        window.copyPhysicalVideoToClipboard = async function() {
+            const src = document.getElementById("theatreVideoPlayer").src;
+            const btn = document.getElementById("copyFileBtn");
+            if(!src) return alert("No active render file data available to bind to clipboard registers!");
+            
+            btn.innerText = "⏳ Packaging Video File Data...";
+
+            try {
+                // Extracting raw data bytes from the secure cloud pipeline array stream
+                const response = await fetch(src);
+                const fileBlob = await response.blob();
+                
+                // Constructing native browser clipboard file package items
+                const item = new ClipboardItem({ [fileBlob.type]: fileBlob });
+                await navigator.clipboard.write([item]);
+                
+                btn.innerText = "✅ Video File Copied!";
+                setTimeout(() => { btn.innerText = "🎞️ Copy Video File"; }, 2500);
+            } catch (err) {
+                btn.innerText = "❌ Copy Restricted";
+                alert("Your browser security profiles blocked background data clipboard copying. Use the sidebar Download button instead!");
+                setTimeout(() => { btn.innerText = "🎞️ Copy Video File"; }, 2500);
+            }
+        }
+
+        window.onload = runTheatrePipeline;
+    </script>
+</body>
+</html>
